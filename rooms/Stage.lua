@@ -13,8 +13,10 @@ function Stage:draw()
     -- Set canvas to drawable
     love.graphics.setCanvas(self.main_canvas)
     love.graphics.clear()
+  	camera:attach(0, 0, gw, gh)
         love.graphics.circle('line', gw/2, gh/2, 50)
         self.area:draw()
+  	camera:detach()
     love.graphics.setCanvas()
 
     -- Draw canvas

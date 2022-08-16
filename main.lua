@@ -2,6 +2,7 @@ Object = require 'libraries/classic/classic'
 Input = require 'libraries/boipushy/Input'
 Timer = require 'libraries/enhanced_timer/EnhancedTimer'
 Moses = require 'libraries/moses/moses'
+Camera = require 'libraries/hump/camera'
 
 require 'GameObject'
 require 'Utils'
@@ -25,15 +26,22 @@ function love.load()
     input = Input()
     timer = Timer()
     fn = Moses()
+    camera = Camera()
 
     gotoRoom('Stage')
     resize(2)
+
+    input:bind('f3', function() camera:shake(4, 60, 1) end)
 end
 
 function love.update(dt)
-    timer:update(dt)
-
     if current_room then current_room:update(dt) end
+
+    camera:update(dt)
+    -- Proper camera smoothing and return post shake
+    camera.smoother = Camera.smooth.damped(5)
+    camera:lockPosition(dt, gw/2, gh/2)
+    timer:update(dt)
 end
 
 function love.draw()
