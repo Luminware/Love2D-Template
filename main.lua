@@ -7,11 +7,14 @@ require 'GameObject'
 require 'Utils'
 
 function love.load()
+    -- Pixelated Look/New Aliasing -- 
+    love.graphics.setDefaultFilter('nearest', 'nearest')
+    love.graphics.setLineStyle('rough')
+
     -- File Requirements --
     local object_files = {}
     recursiveEnumerate('objects', object_files)
     requireFiles(object_files)
-
     local room_files = {}
     recursiveEnumerate('rooms', room_files)
     requireFiles(room_files)
@@ -19,14 +22,12 @@ function love.load()
     rooms = {}
     current_room = nil
 
-    gw = love.graphics.getPixelWidth()
-    gh = love.graphics.getPixelHeight()
-
     input = Input()
     timer = Timer()
     fn = Moses()
 
     gotoRoom('Stage')
+    resize(2)
 end
 
 function love.update(dt)
@@ -41,6 +42,11 @@ end
 
 function gotoRoom(room_type, ...)
     current_room = _G[room_type](...)
+end
+
+function resize(s)
+    love.window.setMode(s*gw, s*gh) 
+    sx, sy = s, s
 end
 
 function recursiveEnumerate(folder, file_list) -- File requiring

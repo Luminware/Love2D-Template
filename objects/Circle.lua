@@ -10,5 +10,5 @@ function Circle:update(dt)
 end
 
 function Circle:draw()
-    love.graphics.circle('fill', self.x, self.y, 50)
+    love.graphics.circle('line', self.x, self.y, 50)
 end
